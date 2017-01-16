@@ -8,7 +8,7 @@ Created on Wed Dec 28 23:23:45 2016
 import turtle
 from random import randint
 from math import sqrt
-import os
+import winsound
 
 turtle.setundobuffer(None)
 
@@ -21,6 +21,10 @@ wn.bgpic("backgroundPS.gif")
 turtle.register_shape("turtleP.gif")
 turtle.register_shape("spriteR.gif")
 turtle.register_shape("bulletS.gif")
+
+#gunshot = open("GunsoundS.wav","rb")
+#explosion = open("explosionS.wav","rb")
+
 
 ##########Game Area##############
 bpen = turtle.Turtle()
@@ -39,7 +43,7 @@ for _ in xrange(2):
     bpen.fd(600)
     bpen.lt(90)
 bpen.hideturtle()
-##################################
+###################################
 
 
 class score(turtle.Turtle):
@@ -120,6 +124,8 @@ class shooter(turtle.Turtle):
                 bull.showturtle()
                 bull.setpos(self.xcor(), self.ycor())
                 bull.state = "fire"
+                #winsound.PlaySound(gunshot.read(), winsound.SND_MEMORY)
+                winsound.PlaySound('GunsoundS.wav',winsound.SND_FILENAME|winsound.SND_NOWAIT,)
                 bull.move()
                 break
 
@@ -129,6 +135,8 @@ class shooter(turtle.Turtle):
                 bullets.move()
                 for enemy in monsters:
                     if collision(bullets, enemy):
+                        #winsound.PlaySound(explosion.read(), winsound.SND_MEMORY)
+                        winsound.PlaySound('explosionS.wav',winsound.SND_FILENAME|winsound.SND_NOWAIT,)
                         enemy.respawn()
                         self.kills += 1
                         bullets.ht()
@@ -200,6 +208,8 @@ while not gameover:
     for enemy in monsters:
         enemy.move()
         if collision(enemy, player) or enemy.ycor() <= player.ycor():
+            #winsound.PlaySound(explosion.read(), winsound.SND_MEMORY)
+            winsound.PlaySound('explosionS.wav',winsound.SND_FILENAME|winsound.SND_NOWAIT,)
             gamepen = turtle.Turtle()
             gamepen.color("green")
             gamepen.write("GAME OVER : Score= "+str(player.kills), font = ("Arial bold italic", 30), align = "center")
